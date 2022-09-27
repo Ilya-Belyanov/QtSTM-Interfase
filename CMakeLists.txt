@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
@@ -24,8 +24,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets  SerialPort REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets SerialPort REQUIRED)
 
 if(ANDROID)
   add_library(QtSTM_Interfase SHARED
@@ -40,7 +40,9 @@ else()
     mainwindow.cpp
     mainwindow.hpp
     mainwindow.ui
+    serialporthandler.hpp
+    serialporthandler.cpp
   )
 endif()
 
-target_link_libraries(QtSTM_Interfase PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(QtSTM_Interfase PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialPort)
