@@ -11,38 +11,12 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# QtCreator supports the following variables for Android, which are identical to qmake Android variables.
-# Check http://doc.qt.io/qt-5/deployment-android.html for more information.
-# They need to be set before the find_package(Qt5 ...) call.
 
-#if(ANDROID)
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-#    if (ANDROID_ABI STREQUAL "armeabi-v7a")
-#        set(ANDROID_EXTRA_LIBS
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libcrypto.so
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libssl.so)
-#    endif()
-#endif()
+if (WIN32)
+    set(CMAKE_SHARED_LIBRARY_PREFIX "")
+    set(CMAKE_STATIC_LIBRARY_PREFIX "")
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif ()
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets  SerialPort REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets SerialPort REQUIRED)
-
-if(ANDROID)
-  add_library(QtSTM_Interfase SHARED
-    main.cpp
-    mainwindow.cpp
-    mainwindow.hpp
-    mainwindow.ui
-  )
-else()
-  add_executable(QtSTM_Interfase
-    main.cpp
-    mainwindow.cpp
-    mainwindow.hpp
-    mainwindow.ui
-    serialporthandler.hpp
-    serialporthandler.cpp
-  )
-endif()
-
-target_link_libraries(QtSTM_Interfase PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialPort)
+add_subdirectory(lib)
+add_subdirectory(ui)

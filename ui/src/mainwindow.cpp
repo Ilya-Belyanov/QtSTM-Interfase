@@ -1,5 +1,5 @@
 #include "mainwindow.hpp"
-#include "./ui_mainwindow.h"
+#include "../view/ui_mainwindow.h"
 
 #include <QMessageBox>
 
@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->connectPushBtn, &QPushButton::clicked, this, &MainWindow::connectPort);
     connect(ui->sendPushBtn, &QPushButton::clicked, this, &MainWindow::sendData);
 
-    connect(serial_port.get(), &SerialPortHead::error, this, &MainWindow::errorWindow);
-    connect(serial_port.get(), &SerialPortHead::data, this, &MainWindow::viewData);
+    connect(serial_port.get(), SIGNAL(error(QString)), this, SLOT(errorWindow(QString)));
+    connect(serial_port.get(), SIGNAL(data(QString)), this, SLOT(viewData(QString)));
 }
 
 MainWindow::~MainWindow()

@@ -6,7 +6,7 @@ SerialPortHead::SerialPortHead(QObject *parent)
     : QObject{parent}
 {
     connect(&_serial,SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(handleError(QSerialPort::SerialPortError))); // подключаем проверку ошибок порта
-    QObject::connect(&_serial, &QSerialPort::readyRead,this, &SerialPortHead::readFromPort);//подключаем   чтение с порта по сигналу readyRead()
+    connect(&_serial, &QSerialPort::readyRead,this, &SerialPortHead::readFromPort);//подключаем   чтение с порта по сигналу readyRead()
 }
 
 void SerialPortHead::setSettings(const PortSettings &settings)

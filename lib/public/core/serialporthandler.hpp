@@ -13,7 +13,7 @@ struct PortSettings {//Структура с настройками порта
     QSerialPort::FlowControl flowControl;
 };
 
-class SerialPortHead : public QObject
+class Q_DECL_EXPORT SerialPortHead : public QObject
 {
     Q_OBJECT
 public:
@@ -34,9 +34,9 @@ private:
     QSerialPort  _serial;
     PortSettings _settings_port;
 
-signals:
-    void error(const QString &err);//Сигнал ошибок порта
-    void data(const QString &data); //Сигнал вывода полученных данных
+Q_SIGNALS:
+     void error(const QString &err);//Сигнал ошибок порта
+     void data(const QString &data); //Сигнал вывода полученных данных
 };
 
 #endif // SERIALPORTHANDLER_HPP
