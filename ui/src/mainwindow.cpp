@@ -1,5 +1,7 @@
 #include "mainwindow.hpp"
 #include "../view/ui_mainwindow.h"
+#include "serialportdialog.hpp"
+#include "serialportcommunicationdialog.hpp"
 
 #include <QMessageBox>
 
@@ -8,14 +10,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    serial_port = std::make_unique<SerialPortHead>();
+    serial_port = std::make_shared<SerialPortHead>();
 
-    connect(ui->searchPortsPushBtn, &QPushButton::clicked, this, &MainWindow::searchPorts);
-    connect(ui->connectPushBtn, &QPushButton::clicked, this, &MainWindow::connectPort);
-    connect(ui->sendPushBtn, &QPushButton::clicked, this, &MainWindow::sendData);
-
+    connect(ui->actionConnection, &QAction::triggered, this, &MainWindow::openConnectionDialog);
+    connect(ui->actionCommunication, &QAction::triggered, this, &MainWindow::openCommunicationDialog);
     connect(serial_port.get(), SIGNAL(error(QString)), this, SLOT(errorWindow(QString)));
-    connect(serial_port.get(), SIGNAL(data(QString)), this, SLOT(viewData(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -28,40 +27,19 @@ void MainWindow::errorWindow(const QString &error)
     QMessageBox::critical(this, "Error", error.toUtf8());
 }
 
-void MainWindow::viewData(const QString &data)
+void MainWindow::openConnectionDialog()
 {
-    ui->dataTextEdit->append(data);
+    SerialPortDialog *dialog = new SerialPortDialog(this);
+    dialog->setSerialPort(serial_port);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->exec();
 }
 
-void MainWindow::searchPorts()
+void MainWindow::openCommunicationDialog()
 {
-    _availablePorts = QSerialPortInfo::availablePorts();
-    ui->availablePortsComboBox->clear();
-    for(int i = 0; i < _availablePorts.size(); i++)
-        ui->availablePortsComboBox->addItem(_availablePorts[i].portName());
-}
-
-void MainWindow::connectPort()
-{
-    PortSettings sett;
-    int index = ui->availablePortsComboBox->currentIndex();
-    if (index == -1)
-        return;
-    QSerialPortInfo port = _availablePorts.at(index);
-    sett.name = port.portName();
-    sett.baudRate = (QSerialPort::BaudRate) ui->baudRateComboBox->currentText().toInt();
-    sett.dataBits = (QSerialPort::DataBits) ui->dataBitsComboBox->currentText().toInt();
-    sett.parity = QSerialPort::NoParity;
-    sett.stopBits = QSerialPort::OneStop;
-    sett.flowControl = QSerialPort::NoFlowControl;
-
-    serial_port->setSettings(sett);
-    serial_port->connectPort();
-}
-
-void MainWindow::sendData()
-{
-    QByteArray data = ui->writeLineEdit->text().toUtf8();
-    serial_port->write(data);
+    SerialPortCommunicationDialog *dialog = new SerialPortCommunicationDialog(this);
+    dialog->setSerialPort(serial_port);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->exec();
 }
 

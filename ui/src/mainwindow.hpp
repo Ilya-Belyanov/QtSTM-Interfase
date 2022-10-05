@@ -20,17 +20,14 @@ public:
 
 public slots:
     void errorWindow(const QString &error);
-    void viewData(const QString &data);
 
 private slots:
-    void searchPorts();
-    void connectPort();
-    void sendData();
+    void openConnectionDialog();
+    void openCommunicationDialog();
 
 private:
     Ui::MainWindow *ui;
-    QList<QSerialPortInfo> _availablePorts;
 
-    std::unique_ptr<SerialPortHead> serial_port;
+    std::shared_ptr<SerialPortHead> serial_port;
 };
 #endif // MAINWINDOW_HPP

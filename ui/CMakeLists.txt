@@ -16,12 +16,12 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui SerialPort REQUIR
 
 file(GLOB SOURCE_FILES
     src/*.cpp
-    #delegates/*.cpp
+    dialogs/*.cpp
     components/*.cpp)
 
 file(GLOB HEADER_FILES
     src/*.hpp
-    #delegates/*.hpp
+    dialogs/*.hpp
     components/*.hpp)
 
 file(GLOB UI_FILES
@@ -37,8 +37,9 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
   PUBLIC
     src
-    #delegates
+    dialogs
     components
+    view
 )
 
 target_compile_features(${PROJECT_NAME}
