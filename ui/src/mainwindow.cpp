@@ -1,9 +1,11 @@
 #include "mainwindow.hpp"
 #include "../view/ui_mainwindow.h"
+
+#include <QMessageBox>
+
 #include "serialportdialog.hpp"
 #include "serialportcommunicationdialog.hpp"
 
-#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -15,6 +17,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionConnection, &QAction::triggered, this, &MainWindow::openConnectionDialog);
     connect(ui->actionCommunication, &QAction::triggered, this, &MainWindow::openCommunicationDialog);
     connect(serial_port.get(), SIGNAL(error(QString)), this, SLOT(errorWindow(QString)));
+
+    // Values -> Sender
+    _sender.setSerialPort(serial_port);
+    connect(_db._servo_a.get(), SIGNAL(requestValueChanged(int)), &_sender, SLOT(setServoADegree(int)));
+
+    // Ui -> Values
+    ui->ServoAWidget->setModel(_db._servo_a);
 }
 
 MainWindow::~MainWindow()

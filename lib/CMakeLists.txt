@@ -16,13 +16,13 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core SerialPort REQUIRED)
 
 file(GLOB SOURCE_FILES
     #src/controllers/*.cpp
-    #src/models/*.cpp
+    src/models/*.cpp
     src/core/*.cpp
     src/*.cpp)
 
 file(GLOB HEADER_FILES
     #public/controllers/*.hpp
-    #public/models/*.hpp
+    public/models/*.hpp
     public/core/*.hpp
     public/*.hpp)
 
@@ -35,8 +35,13 @@ target_include_directories(${PROJECT_NAME}
   PUBLIC
     public
     #public/controllers
-    #public/models
+    public/models
     public/core
+)
+
+target_compile_features(${PROJECT_NAME}
+  PUBLIC
+    cxx_std_17
 )
 
 target_link_libraries(${PROJECT_NAME}

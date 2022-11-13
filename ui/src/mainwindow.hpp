@@ -5,6 +5,8 @@
 #include <QSerialPortInfo>
 
 #include "serialporthandler.hpp"
+#include "database.hpp"
+#include "commandsender.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,6 +29,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    Database _db;
+    CommandSender _sender;
 
     std::shared_ptr<SerialPortHead> serial_port;
 };

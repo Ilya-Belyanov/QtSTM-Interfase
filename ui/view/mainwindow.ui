@@ -14,7 +14,11 @@
    <string>Qt Stm32 Interfase</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout" stretch=""/>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="SliderVComponent" name="ServoAWidget" native="true"/>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -22,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPort">
@@ -46,6 +50,14 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SliderVComponent</class>
+   <extends>QWidget</extends>
+   <header>slidervcomponent.hpp</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
