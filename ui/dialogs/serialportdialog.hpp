@@ -10,6 +10,10 @@ namespace Ui {
 class SerialPortDialog;
 }
 
+/**
+ * @brief The SerialPortDialog class предназначен для установления и отмены подключения
+ * сериал порта по настраиваемым параметрам
+ */
 class SerialPortDialog : public QDialog
 {
     Q_OBJECT

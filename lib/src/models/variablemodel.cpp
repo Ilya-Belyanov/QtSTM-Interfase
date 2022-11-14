@@ -7,7 +7,7 @@ VariableModel::VariableModel(const QString &name, QObject *parent)
       _name(name)
 {}
 
-void VariableModel::setValue(int value)
+void VariableModel::setValue(const QVariant &value)
 {
     if(value == _request_value)
         return;
@@ -15,7 +15,7 @@ void VariableModel::setValue(int value)
     emit requestValueChanged(value);
 }
 
-void VariableModel::setRealValue(int value)
+void VariableModel::setRealValue(const QVariant &value)
 {
     if(value == _real_value)
         return;

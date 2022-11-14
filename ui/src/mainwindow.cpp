@@ -22,8 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Values -> Sender
     _sender.setSerialPort(serial_port);
-    connect(_db._servo_a.get(), SIGNAL(requestValueChanged(int)), &_sender, SLOT(setServoADegree(int)));
-    connect(_db._servo_b.get(), SIGNAL(requestValueChanged(int)), &_sender, SLOT(setServoBDegree(int)));
+    connect(_db._servo_a.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(setServoADegree(const QVariant&)));
+    connect(_db._servo_b.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(setServoBDegree(const QVariant&)));
 
     // Ui -> Values
     ui->ServoAWidget->setModel(_db._servo_a);
@@ -67,5 +67,15 @@ void MainWindow::openCommunicationDialog()
     dialog->setSerialPort(serial_port);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->exec();
+}
+
+void MainWindow::setServoADegree(const QVariant &degree)
+{
+    _sender.setServoADegree(degree.toInt());
+}
+
+void MainWindow::setServoBDegree(const QVariant &degree)
+{
+    _sender.setServoBDegree(degree.toInt());
 }
 

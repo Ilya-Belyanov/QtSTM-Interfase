@@ -8,6 +8,10 @@
 
 #include "serialporthandler.hpp"
 
+/**
+ * @brief The CommandSender class - абстракция, для простой подачи команд на порт.
+ * Формирует заголовки (headers) сообщений
+ */
 class Q_DECL_EXPORT CommandSender : public QObject
 {
     Q_OBJECT

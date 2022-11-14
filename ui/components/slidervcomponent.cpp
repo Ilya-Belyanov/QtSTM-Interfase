@@ -1,6 +1,8 @@
 #include "slidervcomponent.hpp"
 #include "../view/ui_slidervcomponent.h"
 
+#include <QVariant>
+
 SliderVComponent::SliderVComponent(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SliderVComponent)
@@ -20,26 +22,31 @@ void SliderVComponent::setModel(std::shared_ptr<VariableModel> value)
         disconnectModel();
     _value = value;
     ui->label->setText(_value->name());
-    ui->realValueSlider->setValue(_value->realValue());
-    ui->requestSlider->setValue(_value->value());
+    ui->realValueSlider->setValue(_value->realValue().toInt());
+    ui->requestSlider->setValue(_value->value().toInt());
     connectModel();
 }
 
 void SliderVComponent::connectModel()
 {
-    connect(_value.get(), SIGNAL(realValueChanged(int)), ui->realValueSlider, SLOT(setValue(int)));
-    connect(_value.get(), SIGNAL(requestValueChanged(int)), ui->requestSlider, SLOT(setValue(int)));
+    connect(_value.get(), SIGNAL(realValueChanged(const QVariant&)), this, SLOT(updateRealValue(const QVariant&)));
+    connect(_value.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(updateRequestViewValue(const QVariant&)));
 }
 
 void SliderVComponent::disconnectModel()
 {
-    disconnect(_value.get(), SIGNAL(realValueChanged(int)), ui->realValueSlider, SLOT(setValue(int)));
-    disconnect(_value.get(), SIGNAL(requestValueChanged(int)), ui->requestSlider, SLOT(setValue(int)));
+    disconnect(_value.get(), SIGNAL(realValueChanged(const QVariant&)), this, SLOT(updateRealValue(const QVariant&)));
+    disconnect(_value.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(updateRequestViewValue(const QVariant&)));
 }
 
-void SliderVComponent::updateRealValue(int value)
+void SliderVComponent::updateRealValue(const QVariant &value)
 {
-    ui->realValueSlider->setValue(value);
+    ui->realValueSlider->setValue(value.toInt());
+}
+
+void SliderVComponent::updateRequestViewValue(const QVariant& value)
+{
+    ui->realValueSlider->setValue(value.toInt());
 }
 
 void SliderVComponent::updateRequestValue(int value)

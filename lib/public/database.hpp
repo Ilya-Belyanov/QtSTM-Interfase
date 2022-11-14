@@ -7,6 +7,9 @@
 
 #include "models/variablemodel.hpp"
 
+/**
+ * @brief The Database class предназначен для хранения всех используемых моделей.
+ */
 class Q_DECL_EXPORT Database : public QObject
 {
     Q_OBJECT

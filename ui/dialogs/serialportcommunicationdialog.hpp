@@ -9,6 +9,12 @@ namespace Ui {
 class SerialPortCommunicationDialog;
 }
 
+/**
+ * @brief The SerialPortCommunicationDialog class предоставляет
+ * простой интерфейс для подачи текстовых сообщение через порт.
+ * Возможен просмотр отправленных команд (reauests) через это окно и полученных
+ * ответов (recieve)
+ */
 class SerialPortCommunicationDialog : public QDialog
 {
     Q_OBJECT

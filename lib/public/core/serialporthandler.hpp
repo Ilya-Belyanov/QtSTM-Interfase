@@ -13,6 +13,10 @@ struct PortSettings {//Структура с настройками порта
     QSerialPort::FlowControl flowControl;
 };
 
+/**
+ * @brief The SerialPortHead class - удобный класс для управления Сериал портом.
+ * Фасад.
+ */
 class Q_DECL_EXPORT SerialPortHead : public QObject
 {
     Q_OBJECT

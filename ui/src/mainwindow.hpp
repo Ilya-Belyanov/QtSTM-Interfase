@@ -29,6 +29,9 @@ private slots:
     void openConnectionDialog();
     void openCommunicationDialog();
 
+    void setServoADegree(const QVariant &degree);
+    void setServoBDegree(const QVariant &degree);
+
 private:
     Ui::MainWindow *ui;
     Database _db;
