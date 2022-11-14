@@ -22,6 +22,8 @@ public:
 
 public slots:
     void errorWindow(const QString &error);
+    void messageWindow(const QString &msg);
+    void updateVisible();
 
 private slots:
     void openConnectionDialog();

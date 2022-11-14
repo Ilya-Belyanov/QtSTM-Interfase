@@ -23,12 +23,17 @@ public:
 private slots:
     void searchPorts();
     void connectPort();
+    void disconnectPort();
+    void updateVisible();
 
 private:
     Ui::SerialPortDialog *ui;
 
     QList<QSerialPortInfo> _available_ports;
     std::shared_ptr<SerialPortHead> _serial_port;
+
+    void connectSignalPort();
+    void disconnectSignalPort();
 };
 
 #endif // SERIALPORTDIALOG_HPP

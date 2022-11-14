@@ -28,6 +28,9 @@ private:
     Ui::SerialPortCommunicationDialog *ui;
 
     std::shared_ptr<SerialPortHead> _serial_port;
+
+    void connectPort();
+    void disconnectPort();
 };
 
 #endif // SERIALPORTCOMMUNICATIONDIALOG_HPP

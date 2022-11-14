@@ -1,5 +1,7 @@
 #include "commandsender.hpp"
 
+#include <QDebug>
+
 CommandSender::CommandSender(QObject *parent)
     : QObject{parent}
 {
@@ -33,5 +35,6 @@ void CommandSender::setStepDriverBPos(int position)
 
 void CommandSender::sendCommand(const QString &head, const QString &value)
 {
+    qDebug() << head << value;
     _serial_port->write(head.toUtf8() + value.toUtf8());
 }

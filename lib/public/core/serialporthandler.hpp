@@ -20,6 +20,7 @@ public:
     explicit SerialPortHead(QObject *parent = nullptr);
 
     void setSettings(const PortSettings &settings);
+    bool isOpen(){return _serial.isOpen();};
 
 public slots:
     void disconnectPort(); // Слот отключения порта
@@ -35,6 +36,8 @@ private:
     PortSettings _settings_port;
 
 Q_SIGNALS:
+     void isOpenChanged(bool isOpen);
+     void message(const QString &msg);//Сигнал ошибок порта
      void error(const QString &err);//Сигнал ошибок порта
      void data(const QString &data); //Сигнал вывода полученных данных
 };

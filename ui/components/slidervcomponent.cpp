@@ -19,17 +19,22 @@ void SliderVComponent::setModel(std::shared_ptr<VariableModel> value)
     if(_value)
         disconnectModel();
     _value = value;
+    ui->label->setText(_value->name());
+    ui->realValueSlider->setValue(_value->realValue());
+    ui->requestSlider->setValue(_value->value());
     connectModel();
 }
 
 void SliderVComponent::connectModel()
 {
-    connect(_value.get(), SIGNAL(realValueChanged(int)), this, SLOT(updateRealValue(int)));
+    connect(_value.get(), SIGNAL(realValueChanged(int)), ui->realValueSlider, SLOT(setValue(int)));
+    connect(_value.get(), SIGNAL(requestValueChanged(int)), ui->requestSlider, SLOT(setValue(int)));
 }
 
 void SliderVComponent::disconnectModel()
 {
-    disconnect(_value.get(), SIGNAL(realValueChanged(int)), this, SLOT(updateRealValue(int)));
+    disconnect(_value.get(), SIGNAL(realValueChanged(int)), ui->realValueSlider, SLOT(setValue(int)));
+    disconnect(_value.get(), SIGNAL(requestValueChanged(int)), ui->requestSlider, SLOT(setValue(int)));
 }
 
 void SliderVComponent::updateRealValue(int value)
@@ -40,5 +45,8 @@ void SliderVComponent::updateRealValue(int value)
 void SliderVComponent::updateRequestValue(int value)
 {
     if(_value)
+    {
         _value->setValue(value);
+        _value->setRealValue(value);
+    }
 }

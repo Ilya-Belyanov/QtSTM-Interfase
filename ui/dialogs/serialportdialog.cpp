@@ -10,6 +10,7 @@ SerialPortDialog::SerialPortDialog(QWidget *parent) :
 
     connect(ui->searchPushBtn, &QPushButton::clicked, this, &SerialPortDialog::searchPorts);
     connect(ui->connectPushBtn, &QPushButton::clicked, this, &SerialPortDialog::connectPort);
+    connect(ui->disconnectPushBtn, &QPushButton::clicked, this, &SerialPortDialog::disconnectPort);
 
     searchPorts();
 }
@@ -21,7 +22,11 @@ SerialPortDialog::~SerialPortDialog()
 
 void SerialPortDialog::setSerialPort(std::shared_ptr<SerialPortHead> serial_port)
 {
+    if(_serial_port)
+        disconnectSignalPort();
     _serial_port = serial_port;
+    connectSignalPort();
+    updateVisible();
 }
 
 void SerialPortDialog::searchPorts()
@@ -48,4 +53,33 @@ void SerialPortDialog::connectPort()
 
     _serial_port->setSettings(sett);
     _serial_port->connectPort();
+}
+
+void SerialPortDialog::disconnectPort()
+{
+    _serial_port->disconnectPort();
+}
+
+void SerialPortDialog::connectSignalPort()
+{
+    connect(_serial_port.get(), SIGNAL(isOpenChanged(bool)), this, SLOT(updateVisible()));
+}
+
+void SerialPortDialog::disconnectSignalPort()
+{
+    disconnect(_serial_port.get(), SIGNAL(isOpenChanged(bool)), this, SLOT(updateVisible()));
+}
+
+void SerialPortDialog::updateVisible()
+{
+    bool isOpen = _serial_port->isOpen();
+    ui->searchPushBtn->setEnabled(!isOpen);
+    ui->availablePortsComboBox->setEnabled(!isOpen);
+    ui->baudRatesComboBox->setEnabled(!isOpen);
+    ui->dataBitsComboBox->setEnabled(!isOpen);
+    ui->parityComboBox->setEnabled(!isOpen);
+    ui->stopBitsComboBox->setEnabled(!isOpen);
+    ui->flowControlComboBox->setEnabled(!isOpen);
+    ui->connectPushBtn->setEnabled(!isOpen);
+    ui->disconnectPushBtn->setEnabled(isOpen);
 }

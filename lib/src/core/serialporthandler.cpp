@@ -19,7 +19,8 @@ void SerialPortHead::disconnectPort()
     if(_serial.isOpen())
     {
         _serial.close();
-        emit error(_settings_port.name.toLocal8Bit() + " >> Closed!\r");
+        emit isOpenChanged(isOpen());
+        emit message(_settings_port.name.toLocal8Bit() + " >> Closed!\r");
     }
 }
 
@@ -29,23 +30,27 @@ void SerialPortHead::connectPort()
     if (!_serial.open(QIODevice::ReadWrite))
     {
         _serial.close();
+        emit isOpenChanged(isOpen());
         emit error(_serial.errorString().toLocal8Bit());
+        return;
     }
 
     if (_serial.setBaudRate(_settings_port.baudRate)
-            && _serial.setDataBits(_settings_port.dataBits)//DataBits
-            && _serial.setParity(_settings_port.parity)
-            && _serial.setStopBits(_settings_port.stopBits)
-            && _serial.setFlowControl(_settings_port.flowControl))
+        && _serial.setDataBits(_settings_port.dataBits)//DataBits
+        && _serial.setParity(_settings_port.parity)
+        && _serial.setStopBits(_settings_port.stopBits)
+        && _serial.setFlowControl(_settings_port.flowControl))
     {
         if (_serial.isOpen())
         {
-            emit error((_settings_port.name+ " >> Opened!\r").toLocal8Bit());
+            emit isOpenChanged(true);
+            emit message((_settings_port.name+ " >> Opened!\r").toLocal8Bit());
         }
     }
     else
     {
         _serial.close();
+        emit isOpenChanged(isOpen());
         emit error(_serial.errorString().toLocal8Bit());
     }
 }
@@ -54,7 +59,7 @@ void SerialPortHead::write(const QByteArray &bytes)
 {
     if(!_serial.isOpen())
         return;
-    qDebug() << _serial.write(bytes.data());
+    qDebug() << "WRITE COUNT " << _serial.write(bytes.data());
 }
 
 void SerialPortHead::handleError(QSerialPort::SerialPortError error)
@@ -71,5 +76,5 @@ void SerialPortHead::readFromPort()
     data.append(_serial.readAll());
     QString s_data = QString(data);
     emit this->data(s_data);
-    qDebug() << s_data << data << QString::fromUtf8(data);
+    qDebug() << "READ " << s_data;
 }
