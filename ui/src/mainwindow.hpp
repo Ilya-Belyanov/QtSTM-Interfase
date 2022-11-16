@@ -9,6 +9,7 @@
 #include "database.hpp"
 #include "commandsender.hpp"
 #include "mainrecievehandler.hpp"
+#include "senderconnector.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,11 +32,6 @@ private slots:
     void openConnectionDialog();
     void openCommunicationDialog();
 
-    void setServoADegree(const QVariant &degree);
-    void setServoBDegree(const QVariant &degree);
-    void setStepAPosition(const QVariant &degree);
-    void setStepBPosition(const QVariant &degree);
-
 private:
     void closeEvent(QCloseEvent *event);
 
@@ -43,6 +39,7 @@ private:
     Ui::MainWindow *ui;
     Database _db;
     CommandSender _sender;
+    SenderConnector _sender_connector;
     MainRecieveHandler _recieve_handler;
     std::shared_ptr<SerialPortHead> serial_port;
 };

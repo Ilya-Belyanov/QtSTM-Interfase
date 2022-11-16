@@ -12,9 +12,16 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    serial_port = std::make_shared<SerialPortHead>();
 
-    // Передаем обработчику базу
+    // Инициализируем и вставляет порт в отправщика
+    serial_port = std::make_shared<SerialPortHead>();
+    _sender.setSerialPort(serial_port);
+
+    // Вставлем отправщика в коннектор
+    _sender_connector.setSender(&_sender);
+
+    // Передаем коннектору и обработчику базу
+    _sender_connector.setDB(&_db);
     _recieve_handler.setDB(&_db);
 
     // Действия
@@ -30,11 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(serial_port.get(), SIGNAL(data(const QString&)), &_recieve_handler, SLOT(handler(const QString&)));
 
     // Values -> Sender
-    _sender.setSerialPort(serial_port);
-    connect(_db._servo_a.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(setServoADegree(const QVariant&)));
-    connect(_db._servo_b.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(setServoBDegree(const QVariant&)));
-    connect(_db._step_driver_a.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(setStepAPosition(const QVariant&)));
-    connect(_db._step_driver_b.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(setStepBPosition(const QVariant&)));
+    _sender_connector.connectDbToSender();
 
     // Ui -> Values
     ui->ServoAWidget->setModel(_db._servo_a);
@@ -82,26 +85,6 @@ void MainWindow::openCommunicationDialog()
     dialog->setSerialPort(serial_port);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->exec();
-}
-
-void MainWindow::setServoADegree(const QVariant &degree)
-{
-    _sender.setServoADegree(degree.toInt());
-}
-
-void MainWindow::setServoBDegree(const QVariant &degree)
-{
-    _sender.setServoBDegree(degree.toInt());
-}
-
-void MainWindow::setStepAPosition(const QVariant &degree)
-{
-    _sender.setStepDriverAPos(degree.toInt());
-}
-
-void MainWindow::setStepBPosition(const QVariant &degree)
-{
-    _sender.setStepDriverBPos(degree.toInt());
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

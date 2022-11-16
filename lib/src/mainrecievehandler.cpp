@@ -3,7 +3,9 @@
 
 #include <QDebug>
 
-MainRecieveHandler::MainRecieveHandler(QObject *parent) : QObject(parent)
+MainRecieveHandler::MainRecieveHandler(QObject *parent) :
+    QObject(parent),
+    _db(nullptr)
 {
 
 }
