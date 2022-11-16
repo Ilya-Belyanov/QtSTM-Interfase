@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QSerialPort>
 
+#include "mainrecievehandler.hpp"
+
 struct PortSettings {//Структура с настройками порта
     QString name;
     qint32 baudRate;
@@ -25,6 +27,7 @@ public:
 
     void setSettings(const PortSettings &settings);
     bool isOpen(){return _serial.isOpen();};
+    void setRecieveHandler(MainRecieveHandler *reciever);
 
 public slots:
     void disconnectPort(); // Слот отключения порта
@@ -38,6 +41,7 @@ private slots:
 private:
     QSerialPort  _serial;
     PortSettings _settings_port;
+    MainRecieveHandler *_reciever;
 
 Q_SIGNALS:
      void isOpenChanged(bool isOpen);

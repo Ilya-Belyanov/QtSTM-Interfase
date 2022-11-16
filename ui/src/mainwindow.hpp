@@ -8,6 +8,7 @@
 #include "serialporthandler.hpp"
 #include "database.hpp"
 #include "commandsender.hpp"
+#include "mainrecievehandler.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,6 +43,7 @@ private:
     Ui::MainWindow *ui;
     Database _db;
     CommandSender _sender;
+    MainRecieveHandler _recieve_handler;
     std::shared_ptr<SerialPortHead> serial_port;
 };
 #endif // MAINWINDOW_HPP

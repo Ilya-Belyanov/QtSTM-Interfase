@@ -14,6 +14,11 @@ void SerialPortHead::setSettings(const PortSettings &settings)
     _settings_port = settings;
 }
 
+void SerialPortHead::setRecieveHandler(MainRecieveHandler *reciever)
+{
+    _reciever = reciever;
+}
+
 void SerialPortHead::disconnectPort()
 {
     if(_serial.isOpen())

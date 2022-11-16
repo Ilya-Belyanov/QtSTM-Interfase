@@ -14,11 +14,20 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     serial_port = std::make_shared<SerialPortHead>();
 
+    // Передаем обработчику базу
+    _recieve_handler.setDB(&_db);
+
+    // Действия
     connect(ui->actionConnection, &QAction::triggered, this, &MainWindow::openConnectionDialog);
     connect(ui->actionCommunication, &QAction::triggered, this, &MainWindow::openCommunicationDialog);
+
+    // Сообщения с порта об ошибках и прочее
     connect(serial_port.get(), SIGNAL(error(QString)), this, SLOT(errorWindow(QString)));
     connect(serial_port.get(), SIGNAL(message(QString)), this, SLOT(errorWindow(QString)));
     connect(serial_port.get(), SIGNAL(isOpenChanged(bool)), this, SLOT(updateVisible()));
+
+    // Подключаем обработчик сообщений
+    connect(serial_port.get(), SIGNAL(data(const QString&)), &_recieve_handler, SLOT(handler(const QString&)));
 
     // Values -> Sender
     _sender.setSerialPort(serial_port);
