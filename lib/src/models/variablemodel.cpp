@@ -1,10 +1,11 @@
 #include "variablemodel.hpp"
 
-VariableModel::VariableModel(const QString &name, QObject *parent)
+VariableModel::VariableModel(const QString &name, const unsigned char &type, QObject *parent)
     : QObject{parent},
       _request_value(0),
       _real_value(0),
-      _name(name)
+      _name(name),
+      _type(type)
 {}
 
 void VariableModel::setValue(const QVariant &value)

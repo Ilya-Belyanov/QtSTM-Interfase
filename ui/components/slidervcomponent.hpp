@@ -11,7 +11,7 @@ class SliderVComponent;
 
 /**
  * @brief The SliderVComponent class компонент вертикального слайдера
- * для управления переменной типа int
+ * для управления переменной типа int.
  * Поэтому модель должна хранить переменную типа int!
  */
 class SliderVComponent : public QWidget
@@ -27,6 +27,7 @@ private:
     Ui::SliderVComponent *ui;
     std::shared_ptr<VariableModel> _value;
 
+    void updateVisible();
     void connectModel();
     void disconnectModel();
 

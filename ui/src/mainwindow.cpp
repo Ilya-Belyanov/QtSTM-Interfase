@@ -24,10 +24,14 @@ MainWindow::MainWindow(QWidget *parent)
     _sender.setSerialPort(serial_port);
     connect(_db._servo_a.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(setServoADegree(const QVariant&)));
     connect(_db._servo_b.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(setServoBDegree(const QVariant&)));
+    connect(_db._step_driver_a.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(setStepAPosition(const QVariant&)));
+    connect(_db._step_driver_b.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(setStepBPosition(const QVariant&)));
 
     // Ui -> Values
     ui->ServoAWidget->setModel(_db._servo_a);
     ui->servoBWidget->setModel(_db._servo_b);
+    ui->stepAWidget->setModel(_db._step_driver_a);
+    ui->stepBWidget->setModel(_db._step_driver_b);
     updateVisible();
 }
 
@@ -51,6 +55,8 @@ void MainWindow::updateVisible()
     bool isOpen = serial_port->isOpen();
     ui->ServoAWidget->setEnabled(isOpen);
     ui->servoBWidget->setEnabled(isOpen);
+    ui->stepAWidget->setEnabled(isOpen);
+    ui->stepBWidget->setEnabled(isOpen);
 }
 
 void MainWindow::openConnectionDialog()
@@ -77,5 +83,36 @@ void MainWindow::setServoADegree(const QVariant &degree)
 void MainWindow::setServoBDegree(const QVariant &degree)
 {
     _sender.setServoBDegree(degree.toInt());
+}
+
+void MainWindow::setStepAPosition(const QVariant &degree)
+{
+    _sender.setStepDriverAPos(degree.toInt());
+}
+
+void MainWindow::setStepBPosition(const QVariant &degree)
+{
+    _sender.setStepDriverBPos(degree.toInt());
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    bool serialIsOpen = serial_port->isOpen();
+    if(!serialIsOpen)
+    {
+        event->accept();
+        return;
+    }
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Exit", "Port is open, close and quit?",
+                                  QMessageBox::Yes |QMessageBox::No);
+
+    if(reply == QMessageBox::No )
+    {
+        event->ignore();
+        return;
+    }
+    serial_port->disconnectPort();
+    event->accept();
 }
 

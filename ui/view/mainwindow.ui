@@ -21,6 +21,12 @@
     <item>
      <widget class="SliderVComponent" name="servoBWidget" native="true"/>
     </item>
+    <item>
+     <widget class="SliderVComponent" name="stepAWidget" native="true"/>
+    </item>
+    <item>
+     <widget class="SliderVComponent" name="stepBWidget" native="true"/>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">

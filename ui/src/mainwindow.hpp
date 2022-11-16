@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSerialPortInfo>
+#include <QCloseEvent>
 
 #include "serialporthandler.hpp"
 #include "database.hpp"
@@ -31,12 +32,16 @@ private slots:
 
     void setServoADegree(const QVariant &degree);
     void setServoBDegree(const QVariant &degree);
+    void setStepAPosition(const QVariant &degree);
+    void setStepBPosition(const QVariant &degree);
+
+private:
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::MainWindow *ui;
     Database _db;
     CommandSender _sender;
-
     std::shared_ptr<SerialPortHead> serial_port;
 };
 #endif // MAINWINDOW_HPP

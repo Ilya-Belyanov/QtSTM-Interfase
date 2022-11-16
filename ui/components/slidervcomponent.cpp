@@ -21,22 +21,34 @@ void SliderVComponent::setModel(std::shared_ptr<VariableModel> value)
     if(_value)
         disconnectModel();
     _value = value;
+
+    updateVisible();
+    connectModel();
+}
+
+void SliderVComponent::updateVisible()
+{
     ui->label->setText(_value->name());
     ui->realValueSlider->setValue(_value->realValue().toInt());
     ui->requestSlider->setValue(_value->value().toInt());
-    connectModel();
+    ui->realValueSlider->setVisible(_value->type() & VariableKeys::NEED_REAL);
+    ui->requestSlider->setVisible(_value->type() & VariableKeys::USE_REQUEST);
 }
 
 void SliderVComponent::connectModel()
 {
-    connect(_value.get(), SIGNAL(realValueChanged(const QVariant&)), this, SLOT(updateRealValue(const QVariant&)));
-    connect(_value.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(updateRequestViewValue(const QVariant&)));
+    if(_value->type() & VariableKeys::NEED_REAL)
+        connect(_value.get(), SIGNAL(realValueChanged(const QVariant&)), this, SLOT(updateRealValue(const QVariant&)));
+    if(_value->type() & VariableKeys::USE_REQUEST)
+        connect(_value.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(updateRequestViewValue(const QVariant&)));
 }
 
 void SliderVComponent::disconnectModel()
 {
-    disconnect(_value.get(), SIGNAL(realValueChanged(const QVariant&)), this, SLOT(updateRealValue(const QVariant&)));
-    disconnect(_value.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(updateRequestViewValue(const QVariant&)));
+    if(_value->type() & VariableKeys::NEED_REAL)
+        disconnect(_value.get(), SIGNAL(realValueChanged(const QVariant&)), this, SLOT(updateRealValue(const QVariant&)));
+    if(_value->type() & VariableKeys::USE_REQUEST)
+        disconnect(_value.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(updateRequestViewValue(const QVariant&)));
 }
 
 void SliderVComponent::updateRealValue(const QVariant &value)
@@ -52,8 +64,5 @@ void SliderVComponent::updateRequestViewValue(const QVariant& value)
 void SliderVComponent::updateRequestValue(int value)
 {
     if(_value)
-    {
         _value->setValue(value);
-        _value->setRealValue(value);
-    }
 }
