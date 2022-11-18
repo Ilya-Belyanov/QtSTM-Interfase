@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(serial_port.get(), SIGNAL(isOpenChanged(bool)), this, SLOT(updateVisible()));
 
     // Подключаем обработчик сообщений
-    connect(serial_port.get(), SIGNAL(data(const QString&)), &_recieve_handler, SLOT(handler(const QString&)));
+    connect(serial_port.get(), SIGNAL(data(const QByteArray &)), &_recieve_handler, SLOT(handler(const QByteArray &)));
 
     // Values -> Sender
     _sender_connector.connectDbToSender();

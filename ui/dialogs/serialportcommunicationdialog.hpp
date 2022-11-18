@@ -25,7 +25,7 @@ public:
     void setSerialPort(std::shared_ptr<SerialPortHead> serial_port);
 
 public slots:
-    void viewData(const QString &data);
+    void viewData(const QByteArray  &data);
 
 private slots:
     void sendData();

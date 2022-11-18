@@ -1,6 +1,8 @@
 #ifndef SERIALPORTHANDLER_HPP
 #define SERIALPORTHANDLER_HPP
 
+#include <chrono>
+
 #include <QObject>
 #include <QSerialPort>
 
@@ -43,11 +45,13 @@ private:
     PortSettings _settings_port;
     MainRecieveHandler *_reciever;
 
+    std::chrono::steady_clock::time_point begin;
+
 Q_SIGNALS:
      void isOpenChanged(bool isOpen);
      void message(const QString &msg);//Сигнал ошибок порта
      void error(const QString &err);//Сигнал ошибок порта
-     void data(const QString &data); //Сигнал вывода полученных данных
+     void data(const QByteArray &data); //Сигнал вывода полученных данных
 };
 
 #endif // SERIALPORTHANDLER_HPP

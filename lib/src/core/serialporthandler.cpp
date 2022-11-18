@@ -1,4 +1,5 @@
 #include "serialporthandler.hpp"
+
 #include <QByteArray>
 #include <QDebug>
 
@@ -64,7 +65,9 @@ void SerialPortHead::write(const QByteArray &bytes)
 {
     if(!_serial.isOpen())
         return;
+    begin = std::chrono::steady_clock::now();
     qDebug() << "WRITE COUNT " << _serial.write(bytes.data());
+    qDebug() << "Time Write = " << std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::steady_clock::now() - begin).count() << "[µs]";
 }
 
 void SerialPortHead::handleError(QSerialPort::SerialPortError error)
@@ -79,7 +82,6 @@ void SerialPortHead::readFromPort()
 {
     QByteArray data;
     data.append(_serial.readAll());
-    QString s_data = QString(data);
-    emit this->data(s_data);
-    qDebug() << "READ " << s_data;
+    emit this->data(data);
+    qDebug() << "READ " << data;
 }

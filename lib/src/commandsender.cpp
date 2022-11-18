@@ -1,4 +1,5 @@
 #include "commandsender.hpp"
+#include "deviceskeys.hpp"
 
 #include <QDebug>
 
@@ -15,26 +16,26 @@ void CommandSender::setSerialPort(std::shared_ptr<SerialPortHead> serial_port)
 
 void CommandSender::setServoADegree(int degree)
 {
-    sendCommand(headers[SERVO_A], QString::number(degree));
+    sendCommand(Devices::headers[Devices::SERVO_A], QString::number(degree));
 }
 
 void CommandSender::setServoBDegree(int degree)
 {
-    sendCommand(headers[SERVO_B], QString::number(degree));
+    sendCommand(Devices::headers[Devices::SERVO_B], QString::number(degree));
 }
 
 void CommandSender::setStepDriverAPos(int position)
 {
-    sendCommand(headers[STEP_DRIVER_A], QString::number(position));
+    sendCommand(Devices::headers[Devices::STEP_DRIVER_A], QString::number(position));
 }
 
 void CommandSender::setStepDriverBPos(int position)
 {
-    sendCommand(headers[STEP_DRIVER_B], QString::number(position));
+    sendCommand(Devices::headers[Devices::STEP_DRIVER_B], QString::number(position));
 }
 
-void CommandSender::sendCommand(const QString &head, const QString &value)
+void CommandSender::sendCommand(const QByteArray &head, const QString &value)
 {
     qDebug() << head << value;
-    _serial_port->write(head.toUtf8() + value.toUtf8());
+    _serial_port->write(head + value.toUtf8());
 }

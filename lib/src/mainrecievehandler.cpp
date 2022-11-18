@@ -1,6 +1,8 @@
 #include "mainrecievehandler.hpp"
 #include "recieveevents.hpp"
 
+#include "deviceskeys.hpp"
+
 #include <QDebug>
 
 MainRecieveHandler::MainRecieveHandler(QObject *parent) :
@@ -10,9 +12,20 @@ MainRecieveHandler::MainRecieveHandler(QObject *parent) :
 
 }
 
-void MainRecieveHandler::handler(const QString &data)
+void MainRecieveHandler::handler(const QByteArray &data)
 {
     qDebug() << "Handler" << data;
+    QByteArray code = data.mid(0, 2);
+    if(code == Devices::headers[Devices::STEP_DRIVER_A])
+    {
+        QByteArray number = data.mid(2, -1);
+        _db->_step_driver_a->setRealValue(number.toInt());
+    }
+    else if(code == Devices::headers[Devices::STEP_DRIVER_B])
+    {
+        QByteArray number = data.mid(2, -1);
+        _db->_step_driver_b->setRealValue(number.toInt());
+    }
 }
 
 bool MainRecieveHandler::event(QEvent *event)

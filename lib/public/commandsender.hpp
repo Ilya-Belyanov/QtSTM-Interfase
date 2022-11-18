@@ -29,19 +29,7 @@ public slots:
 signals:
 
 private:
-    enum Devices{
-        SERVO_A = 0, SERVO_B,
-        STEP_DRIVER_A, STEP_DRIVER_B
-    };
-
-    QHash<int, QString> headers{
-        {CommandSender::SERVO_A, "SA"},
-        {CommandSender::SERVO_B, "SB"},
-        {CommandSender::STEP_DRIVER_A, "DA"},
-        {CommandSender::STEP_DRIVER_B, "DB"}
-    };
-
-    void sendCommand(const QString &head, const QString &value);
+    void sendCommand(const QByteArray  &head, const QString &value);
 
     std::shared_ptr<SerialPortHead> _serial_port;
 

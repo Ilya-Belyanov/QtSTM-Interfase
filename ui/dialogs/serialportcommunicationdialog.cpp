@@ -31,9 +31,9 @@ void SerialPortCommunicationDialog::setSerialPort(std::shared_ptr<SerialPortHead
     connectPort();
 }
 
-void SerialPortCommunicationDialog::viewData(const QString &data)
+void SerialPortCommunicationDialog::viewData(const QByteArray &data)
 {
-    ui->recieveTextEdit->append(data);
+    ui->recieveTextEdit->append(QString(data));
 }
 
 void SerialPortCommunicationDialog::sendData()
@@ -50,10 +50,10 @@ void SerialPortCommunicationDialog::sendData()
 
 void SerialPortCommunicationDialog::connectPort()
 {
-    connect(_serial_port.get(), SIGNAL(data(QString)), this, SLOT(viewData(QString)));
+    connect(_serial_port.get(), SIGNAL(data(QByteArray)), this, SLOT(viewData(QByteArray)));
 }
 
 void SerialPortCommunicationDialog::disconnectPort()
 {
-    disconnect(_serial_port.get(), SIGNAL(data(QString)), this, SLOT(viewData(QString)));
+    disconnect(_serial_port.get(), SIGNAL(data(QByteArray)), this, SLOT(viewData(QByteArray)));
 }

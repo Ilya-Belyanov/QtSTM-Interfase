@@ -19,7 +19,7 @@ public:
     void setDB(Database *db){_db = db;};
 
 public slots:
-    void handler(const QString &data);
+    void handler(const QByteArray &data);
 
 private:
 
