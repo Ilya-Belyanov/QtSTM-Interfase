@@ -14,11 +14,12 @@ MainRecieveHandler::MainRecieveHandler(QObject *parent) :
 
 void MainRecieveHandler::handler(const QByteArray &data)
 {
-    qDebug() << "Handler" << data;
+    qDebug() << "Handler " << QString(data);
     QByteArray code = data.mid(0, 2);
     if(code == Devices::headers[Devices::STEP_DRIVER_A])
     {
         QByteArray number = data.mid(2, -1);
+        qDebug() << "NUMBER " << number.toInt();
         _db->_step_driver_a->setRealValue(number.toInt());
     }
     else if(code == Devices::headers[Devices::STEP_DRIVER_B])

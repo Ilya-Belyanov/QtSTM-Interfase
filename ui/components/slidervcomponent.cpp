@@ -2,7 +2,7 @@
 #include "../view/ui_slidervcomponent.h"
 
 #include <QVariant>
-
+#include <QDebug>
 SliderVComponent::SliderVComponent(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SliderVComponent)
@@ -38,9 +38,9 @@ void SliderVComponent::updateVisible()
 void SliderVComponent::connectModel()
 {
     if(_value->type() & VariableKeys::NEED_REAL)
-        connect(_value.get(), SIGNAL(realValueChanged(const QVariant&)), this, SLOT(updateRealValue(const QVariant&)));
+        connect(_value.get(), SIGNAL(realValueChanged(QVariant)), this, SLOT(updateRealValue(QVariant)));
     if(_value->type() & VariableKeys::USE_REQUEST)
-        connect(_value.get(), SIGNAL(requestValueChanged(const QVariant&)), this, SLOT(updateRequestViewValue(const QVariant&)));
+        connect(_value.get(), SIGNAL(requestValueChanged(QVariant)), this, SLOT(updateRequestViewValue(QVariant)));
 }
 
 void SliderVComponent::disconnectModel()
@@ -58,7 +58,7 @@ void SliderVComponent::updateRealValue(const QVariant &value)
 
 void SliderVComponent::updateRequestViewValue(const QVariant& value)
 {
-    ui->realValueSlider->setValue(value.toInt());
+    ui->requestSlider->setValue(value.toInt());
 }
 
 void SliderVComponent::updateRequestValue(int value)

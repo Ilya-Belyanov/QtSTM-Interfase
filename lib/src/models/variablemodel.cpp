@@ -1,5 +1,5 @@
 #include "variablemodel.hpp"
-
+#include <QDebug>
 VariableModel::VariableModel(const QString &name, const unsigned char &type, QObject *parent)
     : QObject{parent},
       _request_value(0),
