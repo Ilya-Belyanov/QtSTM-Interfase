@@ -29,6 +29,8 @@ private slots:
     void setServoBDegree(const QVariant &degree);
     void setStepAPosition(const QVariant &degree);
     void setStepBPosition(const QVariant &degree);
+    void setStepASpeed(const QVariant &speed);
+    void setStepBSpeed(const QVariant &speed);
 
 signals:
 

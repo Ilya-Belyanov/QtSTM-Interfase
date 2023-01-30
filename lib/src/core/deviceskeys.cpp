@@ -6,6 +6,8 @@ namespace Devices {
         {SERVO_A, "SA"},
         {SERVO_B, "SB"},
         {STEP_DRIVER_A, "DA"},
-        {STEP_DRIVER_B, "DB"}
+        {STEP_DRIVER_B, "DB"},
+        {STEP_DRIVER_A_SPEED, "AS"},
+        {STEP_DRIVER_B_SPEED, "BS"}
     };
 }

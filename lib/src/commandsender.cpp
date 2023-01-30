@@ -34,6 +34,16 @@ void CommandSender::setStepDriverBPos(int position)
     sendCommand(Devices::headers[Devices::STEP_DRIVER_B], QString::number(position));
 }
 
+void CommandSender::setStepDriverASpeed(int speed)
+{
+    sendCommand(Devices::headers[Devices::STEP_DRIVER_A_SPEED], QString::number(speed));
+}
+
+void CommandSender::setStepDriverBSpeed(int speed)
+{
+    sendCommand(Devices::headers[Devices::STEP_DRIVER_B_SPEED], QString::number(speed));
+}
+
 void CommandSender::sendCommand(const QByteArray &head, const QString &value)
 {
     qDebug() << head << value;

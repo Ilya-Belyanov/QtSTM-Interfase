@@ -19,7 +19,9 @@ public:
     std::shared_ptr<VariableModel> _servo_a;
     std::shared_ptr<VariableModel> _servo_b;
     std::shared_ptr<VariableModel> _step_driver_a;
+    std::shared_ptr<VariableModel> _step_driver_speed_a;
     std::shared_ptr<VariableModel> _step_driver_b;
+    std::shared_ptr<VariableModel> _step_driver_speed_b;
 
 };
 

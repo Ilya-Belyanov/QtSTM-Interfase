@@ -25,6 +25,8 @@ public slots:
     void setServoBDegree(int degree);
     void setStepDriverAPos(int position);
     void setStepDriverBPos(int position);
+    void setStepDriverASpeed(int speed);
+    void setStepDriverBSpeed(int speed);
 
 signals:
 

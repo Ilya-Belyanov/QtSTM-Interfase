@@ -44,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->servoBWidget->setModel(_db._servo_b);
     ui->stepAWidget->setModel(_db._step_driver_a);
     ui->stepBWidget->setModel(_db._step_driver_b);
+    ui->stepASpeedWidget->setModel(_db._step_driver_speed_a);
+    ui->stepBSpeedWidget->setModel(_db._step_driver_speed_b);
     updateVisible();
 }
 
@@ -69,6 +71,8 @@ void MainWindow::updateVisible()
     ui->servoBWidget->setEnabled(isOpen);
     ui->stepAWidget->setEnabled(isOpen);
     ui->stepBWidget->setEnabled(isOpen);
+    ui->stepASpeedWidget->setEnabled(isOpen);
+    ui->stepBSpeedWidget->setEnabled(isOpen);
 }
 
 void MainWindow::openConnectionDialog()
