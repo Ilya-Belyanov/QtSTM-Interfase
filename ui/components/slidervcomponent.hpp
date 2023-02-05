@@ -22,6 +22,7 @@ public:
     explicit SliderVComponent(QWidget *parent = nullptr);
     ~SliderVComponent();
     void setModel(std::shared_ptr<VariableModel> value);
+    void setRangeValue(int min, int max, int step = 1);
 
 private:
     Ui::SliderVComponent *ui;

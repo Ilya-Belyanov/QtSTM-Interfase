@@ -9,6 +9,8 @@ SliderVComponent::SliderVComponent(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->requestSlider, SIGNAL(valueChanged(int)), this, SLOT(updateRequestValue(int)));
+    ui->realLabel->setText(QString::number(ui->realValueSlider->value()));
+    ui->requestrLabel->setText(QString::number(ui->requestSlider->value()));
 }
 
 SliderVComponent::~SliderVComponent()
@@ -26,13 +28,23 @@ void SliderVComponent::setModel(std::shared_ptr<VariableModel> value)
     connectModel();
 }
 
+void SliderVComponent::setRangeValue(int min, int max, int step)
+{
+    ui->realValueSlider->setRange(min, max);
+    ui->realValueSlider->setSingleStep(step);
+    ui->requestSlider->setRange(min, max);
+    ui->requestSlider->setSingleStep(step);
+}
+
 void SliderVComponent::updateVisible()
 {
     ui->label->setText(_value->name());
     ui->realValueSlider->setValue(_value->realValue().toInt());
     ui->requestSlider->setValue(_value->value().toInt());
     ui->realValueSlider->setVisible(_value->type() & VariableKeys::NEED_REAL);
+    ui->realLabel->setVisible(_value->type() & VariableKeys::NEED_REAL);
     ui->requestSlider->setVisible(_value->type() & VariableKeys::USE_REQUEST);
+    ui->requestrLabel->setVisible(_value->type() & VariableKeys::USE_REQUEST);
 }
 
 void SliderVComponent::connectModel()
@@ -54,6 +66,7 @@ void SliderVComponent::disconnectModel()
 void SliderVComponent::updateRealValue(const QVariant &value)
 {
     ui->realValueSlider->setValue(value.toInt());
+    ui->realLabel->setText(QString::number(value.toInt()));
 }
 
 void SliderVComponent::updateRequestViewValue(const QVariant& value)
@@ -65,4 +78,5 @@ void SliderVComponent::updateRequestValue(int value)
 {
     if(_value)
         _value->setValue(value);
+    ui->requestrLabel->setText(QString::number(value));
 }

@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
+   <item row="1" column="1">
     <widget class="QSlider" name="realValueSlider">
      <property name="enabled">
       <bool>false</bool>
@@ -24,20 +24,34 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QSlider" name="requestSlider">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2">
+   <item row="2" column="0" colspan="2">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Value</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QSlider" name="requestSlider">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="requestrLabel">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="realLabel">
+     <property name="text">
+      <string>TextLabel</string>
      </property>
     </widget>
    </item>

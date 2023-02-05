@@ -39,6 +39,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Values -> Sender
     _sender_connector.connectDbToSender();
 
+    ui->stepASpeedWidget->setRangeValue(15, 120, 5);
+    ui->stepBSpeedWidget->setRangeValue(15, 120, 5);
+
     // Ui -> Values
     ui->ServoAWidget->setModel(_db._servo_a);
     ui->servoBWidget->setModel(_db._servo_b);
